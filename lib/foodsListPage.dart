@@ -172,6 +172,18 @@ class _FoodsListPageState extends State<FoodsListPage> {
               ),
             ),
           SizedBox(height: 100.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "end of " + widget.cafeData["name"] + "'s menu",
+                style: TextStyle(
+                  color: Colors.grey[500]!,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 100.0),
         ],
       ),
     );

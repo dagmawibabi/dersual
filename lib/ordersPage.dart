@@ -1,8 +1,12 @@
 // ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors
 
+import 'dart:math';
+
+import 'package:dd/components/orderHistoryBox.dart';
 import 'package:flutter/material.dart';
 
 import 'components/sectionTitles.dart';
+import 'foodDetailsPage.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -12,7 +16,7 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  List orders = [
+  List pendingOrders = [
     {
       "name": "Pizza",
       "price": "120",
@@ -37,6 +41,8 @@ class _OrdersPageState extends State<OrdersPage> {
       "image":
           "https://www.shutterstock.com/image-photo/fresh-tasty-burger-isolated-on-600w-705104968.jpg",
     },
+  ];
+  List completedOrders = [
     {
       "name": "Sushi",
       "price": "120",
@@ -76,28 +82,56 @@ class _OrdersPageState extends State<OrdersPage> {
     return Container(
       child: Column(
         children: [
-          SectionTitles(title: "Order History"),
-          for (var eachOrder in orders)
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        eachOrder["name"],
-                      ),
-                      Text(
-                        eachOrder["price"],
-                      ),
-                    ],
+          // Pending Orders
+          SectionTitles(title: "Pending Orders"),
+          for (var eachOrder in pendingOrders)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FoodDetailPage(
+                      foodData: eachOrder,
+                    ),
                   ),
-                  Text(
-                    eachOrder["date"].toString(),
-                  ),
-                ],
+                );
+              },
+              child: OrderHistoryBox(
+                orderData: eachOrder,
+                isComplete: false,
               ),
             ),
+          SizedBox(height: 20.0),
+
+          // Complete Orders
+          SectionTitles(title: "Complete Orders"),
+          for (var eachOrder in completedOrders)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FoodDetailPage(
+                      foodData: eachOrder,
+                    ),
+                  ),
+                );
+              },
+              child: OrderHistoryBox(
+                orderData: eachOrder,
+                isComplete: true,
+              ),
+            ),
+          SizedBox(height: 150.0),
+
+          Text(
+            "end of order history",
+            style: TextStyle(
+              color: Colors.grey[500]!,
+            ),
+          ),
+
+          SizedBox(height: 150.0),
         ],
       ),
     );
